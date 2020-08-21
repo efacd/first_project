@@ -1,0 +1,95 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Movie Search</title>
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+            crossorigin="anonymous"></script>
+    <script src="/static/js/detail.js"></script>
+    <!-- 우리는 Bootstrap을 다운로드 방식이 아닌 CDN 방식으로 이용하려고 한다 -->
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+          crossorigin="anonymous">
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=oi19384r8r"></script>
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+
+    <!-- Custom styles for this template -->
+<!--    <link href="/css/dashboard.css" rel="stylesheet">-->
+</head>
+<body>
+<script>
+    $(document).ready(detail_ajax('{{ park_post.p_idx }}'));
+</script>
+
+    <h1>{{ park_post.p_idx }}</h1>
+    <h1 id="myParkname"></h1>
+    <h3 id="myParkaddr"></h3>
+    <p id="myParkcontents"></p>
+    <p id="myParkequip"></p>
+    <tbody></tbody>
+    <img class="mainImg" />
+    <br>
+<!--네이버 지도 부분-->
+
+<div id="map" style="width:500px;height:400px;"></div>
+
+<!-- 지도 밑에 링크에 해당하는 html 코드 -->
+<!-- 해당주소 뒤에 좌표값을 줘서 해당 위치에 대한 쿼리 가능 -->
+<!-- lng : x좌표, lat : y좌표 -->
+<!--<a href='http://map.naver.com/index.nhn?&searchCoord=&level=12&lng=126.8689146&lat=37.5082119&pinTitle=갈산공원&pinType=SITE'>길찾기로가기</a>-->
+<a id="my_map">길찾기로가기</a>
+<!--<a style="font-family: dotum,sans-serif; font-size: 11px; color:#666; text-decoration: none; letter-spacing: -1px;"-->
+<!--   href="https://map.naver.com/index.nhn?query=7ISc7Jq47Jet&amp;searchCoord=&amp;tab=1&amp;lng=a6412772496c2c652a55fbb70066d8d9&amp;-->
+<!--   mapMode=0&amp;mpx=054c2ff09551bac00afb1ec4b78927f7a0a1ef55fe14d7c2decb9c95e95ea3acd98b6b3f01c7ad40820423f80a68f7af-->
+<!--&amp;lat=88e2c274de6271796879b90267244899&amp;dlevel=11&amp;enc=b64&amp;menu=location&amp;__fromRestorer=true" target="_blank">지도 크게 보기</a>-->
+<!--<br>-->
+<!--<tr>-->
+<!--    <td height="30" bgcolor="#f9f9f9" align="left" style="padding-left:9px; border-left:1px solid #cecece; border-bottom:1px solid #cecece;">-->
+<!--    <a style="font-family: dotum,sans-serif; font-size: 20px; color:#666; text-decoration: none; letter-spacing: -1px;"-->
+<!--       href='http://map.naver.com/index.nhn?&searchCoord=&level=12&lng=126.8689146&lat=37.5082119&pinTitle=갈산공원&pinType=SITE'-->
+<!--       target="_blank">네이버 길찾기 이용하기</a>-->
+<!--    </td>-->
+<!--</tr>-->
+<!-- 네이버 지도 끝 -->
+
+    <br>
+    <input type="button" value="방문댓글">
+    <a href="{% url 'posts:write_post' park_post.p_idx %}">댓글쓰러가기</a>
+    <br>
+    {% for post in park_post.posts.all %}
+        <div>
+            <p>{{ post.author }}</p>
+            <p> {{ post.starpoint }} / 5 </p>
+            <p>{{ post.contents }}</p>
+            <p>{{ post.images }}</p>
+            {% if post.images %}
+                <img src="{{ post.images.url }}" width="200" height="100" />
+            {% endif %}
+        </div>
+    {% empty %}
+        <p>아직 댓글이 없어요</p>
+    {% endfor %}
+
+
+</body>
+</html>
