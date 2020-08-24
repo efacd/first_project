@@ -16,21 +16,28 @@ function call_ajax(area_name) {
 
             $.each(park_list, function(idx, item) {
                 if(item.P_ZONE == area_name) {
-                    var tr = $("<tr></tr>")   // <tr></tr>이라는 없는 태그를 하나 만듬
-                    var idxTd = $("<td></td>").text(item.P_IDX)   // <td></td>
-                    var imgTd = $("<td></td>")
-                    var titleTd = $("<td></td>").text(item.P_PARK)   // text 메서드로 태그사이에 문자 넣기 가능
-                    var contentTd = $("<td></td>").text(item.P_ZONE)
-                    var viewerTd = $("<td></td>").text(item.audiAcc)
-                    var img = $("<img />").attr("src",item.img)   // <img src = ...>
+                    var tr = $("<tr></tr>").addClass("row100 body")   // <tr></tr>이라는 없는 태그를 하나 만듬
+                    var idxTd = $("<td></td>").text(item.P_IDX).addClass("cell100 column1")   // <td></td>
+                    var imgTd = $("<td></td>").addClass("cell100 column2")
+                    // var titleTd = $("<td></td>").text(item.P_PARK).addClass("cell100 column2")   // text 메서드로 태그사이에 문자 넣기 가능
+                    var titleTd = $("<td></td>").text(item.P_PARK).addClass("cell100 column3")
+                    var contentTd = $("<td></td>").text(item.P_ADDR).addClass("cell100 column4")
+                    // var viewerTd = $("<td></td>").text(item.audiAcc).addClass("cell100 column4")
+                    var img = $("<img />").attr({
+                        "src": item.P_IMG,
+                        "width": 300,
+                        "height": 200
+                    },)   // <img src = ...>
                     imgTd.append(img)   // imgTd의 자식으로 img를 붙임
                     tr.append(idxTd)
                     tr.append(imgTd)
                     tr.append(titleTd)
+
+                    // tr.append(titleTd)
                     tr.append(contentTd)
-                    tr.append(viewerTd)
-                    var detailTd = $("<td></td>")
-                    var detailBtn = $("<input />").attr("type", "button").attr("value", "확인")
+                    // tr.append(viewerTd)
+                    var detailTd = $("<td></td>").addClass("cell100 column5")
+                    var detailBtn = $("<input />").attr("type", "button").attr("value", "확인").addClass("btn btn-primary")
                     detailBtn.on("click", function () {
                         go_detail(item.P_IDX)
 //                        location.href = item.P_IDX + '/detail'
